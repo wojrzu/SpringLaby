@@ -1,4 +1,4 @@
-package com.github.Badgaar;
+package com.github.Badgaar.impl;
 
 public enum Role {
     ADMIN,

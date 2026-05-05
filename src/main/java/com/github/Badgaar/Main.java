@@ -1,40 +1,37 @@
 package com.github.Badgaar;
 
-import java.util.Scanner;
+import com.github.Badgaar.impl.UI;
+import com.github.Badgaar.repository.IVehicleCategoryConfigRepository;
+import com.github.Badgaar.repository.IRentalRepository;
+import com.github.Badgaar.repository.IUserRepository;
+import com.github.Badgaar.repository.IVehicleRepository;
+import com.github.Badgaar.repository.RentalRepository;
+import com.github.Badgaar.repository.UserRepository;
+import com.github.Badgaar.repository.VehicleCategoryConfigRepository;
+import com.github.Badgaar.repository.VehicleRepository;
+import com.github.Badgaar.service.AuthService;
+import com.github.Badgaar.service.RentalService;
+import com.github.Badgaar.service.UserService;
+import com.github.Badgaar.service.VehicleCategoryConfigService;
+import com.github.Badgaar.service.VehicleService;
+import com.github.Badgaar.service.VehicleValidator;
 
 public class Main {
     public static void main(String[] args) {
-        VehicleRepositoryImpl repo = new VehicleRepositoryImpl();
-        System.out.println("Dostępne pojazdy:");
-        repo.showAvailableVehicles();
+        IVehicleRepository vehicleRepository = new VehicleRepository();
+        IUserRepository userRepository = new UserRepository();
+        IRentalRepository rentalRepository = new RentalRepository();
+        IVehicleCategoryConfigRepository configRepository = new VehicleCategoryConfigRepository();
 
-        System.out.println("Dostępne komendy: R - Wypożycz pojazd, E - Oddaj pojazd, S - Status repozytorium, C - Zamknij konsole");
-        Scanner scanner = new Scanner(System.in);
-        String line = scanner.nextLine();
-        while (!line.equals("C")){
-            switch (line) {
-                case "R":
-                    System.out.println("Podaj ID pożądanego pojazdu:");
-                    if(repo.isAvailableVehicle(scanner.nextLine()))
-                    repo.rentVehicle(scanner.nextLine());
-                    System.out.println("Wypożyczono.");
-                    repo.showAvailableVehicles();
-                    break;
-                case "E":
-                    System.out.println("Podaj ID zwracanego pojazdu:");
-                    repo.returnVehicle(scanner.nextLine());
-                    System.out.println("Zwrócono.");
-                    repo.showAvailableVehicles();
-                    break;
-                case "S":
-                    System.out.println("Obecny status repozytorium:");
-                    repo.showAvailableVehicles();
-                    break;
-                default:
-                    System.out.println("Nieznana komenda.");
-            }
-            System.out.println("Podaj następną komendę:");
-            line = scanner.nextLine();
-        }
+        VehicleCategoryConfigService configService = new VehicleCategoryConfigService(configRepository);
+        VehicleValidator vehicleValidator = new VehicleValidator(configService);
+
+        AuthService authService = new AuthService(userRepository);
+        VehicleService vehicleService = new VehicleService(vehicleRepository, vehicleValidator, configService);
+        RentalService rentalService = new RentalService(vehicleRepository, rentalRepository, userRepository);
+        UserService userService = new UserService(userRepository, rentalRepository);
+        VehicleCategoryConfigService categoryConfigService = new VehicleCategoryConfigService(configRepository);
+
+        new UI(authService, vehicleService, rentalService, userService, categoryConfigService).start();
     }
 }
