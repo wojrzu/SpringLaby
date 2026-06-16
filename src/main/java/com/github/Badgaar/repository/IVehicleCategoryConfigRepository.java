@@ -1,6 +1,6 @@
 package com.github.Badgaar.repository;
 
-import com.github.Badgaar.impl.VehicleCategoryConfig;
+import com.github.Badgaar.model.VehicleCategoryConfig;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,14 +1,18 @@
 package com.github.Badgaar.repository;
 
-import com.github.Badgaar.impl.Rental;
+import com.github.Badgaar.model.Rental;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Repository
+@Profile("json")
 public class RentalRepository implements IRentalRepository {
 
     private String rentalsPath = "rentals.json";

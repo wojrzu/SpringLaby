@@ -1,10 +1,12 @@
 package com.github.Badgaar.service;
 
-import com.github.Badgaar.impl.Vehicle;
-import com.github.Badgaar.impl.VehicleCategoryConfig;
+import com.github.Badgaar.model.Vehicle;
+import com.github.Badgaar.model.VehicleCategoryConfig;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+@Component
 public class VehicleValidator {
 
     private final VehicleCategoryConfigService configService;

@@ -1,4 +1,4 @@
-package com.github.Badgaar.impl;
+package com.github.Badgaar.model;
 
 import com.github.Badgaar.service.*;
 
@@ -174,7 +174,7 @@ public class UI {
 
     private void rentVehicle(User loggedUser) {
         try {
-            rentalService.rentVehicle(loggedUser.getId(), readText("ID pojazdu do wypożyczenia: "));
+            rentalService.rentVehicle(loggedUser.getLogin(), readText("ID pojazdu do wypożyczenia: "));
             System.out.println("Pojazd został wypożyczony.");
         } catch (Exception e) {
             System.out.println("Błąd: " + e.getMessage());
@@ -183,7 +183,7 @@ public class UI {
 
     private void returnVehicle(User loggedUser) {
         try {
-            rentalService.returnVehicle(loggedUser.getId());
+            rentalService.returnVehicle(loggedUser.getLogin());
             System.out.println("Pojazd został zwrócony.");
         } catch (Exception e) {
             System.out.println("Błąd: " + e.getMessage());

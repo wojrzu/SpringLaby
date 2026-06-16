@@ -1,15 +1,20 @@
 package com.github.Badgaar.repository;
 
-import com.github.Badgaar.impl.User;
+import com.github.Badgaar.model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.Getter;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
+@Getter
+@Repository
+@Profile("json")
 public class UserRepository implements IUserRepository {
     List<User> users = new ArrayList<>();
     String usersPath = "users.json";
@@ -25,6 +30,14 @@ public class UserRepository implements IUserRepository {
             if (user.login.equals(login)){
                 return user;
             }
+        }
+        return null;
+    }
+
+    @Override
+    public User getUserById(String id) {
+        for(User user : users) {
+            if(user.id.equals(id)) return user;
         }
         return null;
     }

@@ -1,8 +1,9 @@
 package com.github.Badgaar.repository;
 
-import com.github.Badgaar.impl.VehicleCategoryConfig;
+import com.github.Badgaar.model.VehicleCategoryConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class VehicleCategoryConfigRepository implements IVehicleCategoryConfigRepository {
 
     private String categoriesPath = "categories.json";

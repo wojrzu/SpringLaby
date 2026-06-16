@@ -1,14 +1,18 @@
 package com.github.Badgaar.repository;
 
-import com.github.Badgaar.impl.Vehicle;
+import com.github.Badgaar.model.Vehicle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Repository
+@Profile("json")
 public class VehicleRepository implements IVehicleRepository {
 
     String vehiclesPath = "vehicles.json";
@@ -18,26 +22,6 @@ public class VehicleRepository implements IVehicleRepository {
 
     public VehicleRepository() {
         load();
-    }
-
-    @Override
-    public void rentVehicle(String vehicleUUID) {
-        for (Vehicle v : vehicles) {
-            if(v.id.equals(vehicleUUID)) {
-                v.isRented = true;
-            }
-        }
-        save();
-    }
-
-    @Override
-    public void returnVehicle(String vehicleUUID) {
-        for (Vehicle v : vehicles) {
-            if(v.id.equals(vehicleUUID)){
-                v.isRented = false;
-            }
-        }
-        save();
     }
 
     private void load() {
@@ -90,13 +74,14 @@ public class VehicleRepository implements IVehicleRepository {
     @Override
     public void remove(String id){
         vehicles.removeIf(v -> v.id.equals(id));
+        save();
     }
 
     @Override
     public Vehicle getVehicle(String id){
         for (Vehicle v : vehicles) {
             if(v.id.equals(id)){
-                return v.copy();
+                return v;
             }
         }
         return null;
@@ -104,11 +89,19 @@ public class VehicleRepository implements IVehicleRepository {
 
     @Override
     public List<Vehicle> getVehicles(){
-        List<Vehicle> copyList = new ArrayList<>();
-        for(Vehicle v : vehicles){
-            copyList.add(v.copy());
-        }
 
-        return copyList;
+        return new ArrayList<>(vehicles);
+    }
+
+    @Override
+    public void update(Vehicle vehicle) {
+        for (int i = 0; i < vehicles.size(); i++) {
+            if (vehicles.get(i).id.equals(vehicle.id)) {
+                vehicles.set(i, vehicle);
+                save();
+                return;
+            }
+        }
+        return;
     }
 }

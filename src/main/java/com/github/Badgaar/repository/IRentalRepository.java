@@ -1,6 +1,6 @@
 package com.github.Badgaar.repository;
 
-import com.github.Badgaar.impl.Rental;
+import com.github.Badgaar.model.Rental;
 
 import java.util.List;
 

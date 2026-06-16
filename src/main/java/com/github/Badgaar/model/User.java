@@ -1,5 +1,6 @@
-package com.github.Badgaar.impl;
+package com.github.Badgaar.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -7,21 +8,35 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "users")
 public class User {
-    public String login;
+
+    @Id
+    @Column(name = "id")
     public String id;
+
+    @Column(name = "login", unique = true, nullable = false)
+    public String login;
+
+    @Column(name = "password_hash", nullable = false)
     public String passwordHash;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
     public Role role;
+
+    @Column(name = "rented_vehicle_id")
     public String rentedVehicleID;
 
     public User(String id, String login, String passwordHash, Role role) {
-        this.role = role;
+        this.id = id;
         this.login = login;
         this.passwordHash = passwordHash;
-        this.id = id;
+        this.role = role;
     }
 
-    public String toCSV(){
+    public String toCSV() {
         return login + ";" + passwordHash + ";" + role;
     }
 
@@ -30,7 +45,7 @@ public class User {
         return ("Login: " + login + ";" + passwordHash + ";" + role + ";" + rentedVehicleID);
     }
 
-    public User copy(){
+    public User copy() {
         return new User(id, login, passwordHash, role);
     }
 }

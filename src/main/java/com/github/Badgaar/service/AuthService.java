@@ -2,13 +2,14 @@ package com.github.Badgaar.service;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.github.Badgaar.repository.IUserRepository;
-import com.github.Badgaar.impl.Role;
-import com.github.Badgaar.impl.User;
-import com.github.Badgaar.repository.UserRepository;
+import com.github.Badgaar.model.Role;
+import com.github.Badgaar.model.User;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class AuthService {
 
     private IUserRepository userRepository;
